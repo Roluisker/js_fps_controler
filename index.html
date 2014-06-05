@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+
+	<title>Old Man</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/styles/css/styles.css"/>
+
+</head>
+
+
+
+  <ul id="scene">
+      <li  class="layer" data-depth="0.20"> <img  id="background-anim" src="assets/images/back.png"> </li>
+      <li  class="layer" data-depth="0.20"> <img  id="table" src="assets/images/table.png"></li>
+      <li  class="layer" data-depth="0.30"> <img  id="table-2" src="assets/images/table-2.png"></li>
+       <li  class="layer" data-depth="0.40"> <img  class="old_man_class" id="old_man" src="assets/images/old_man.png"></li>
+  </ul>
+                 
+  <p id="check"></p>
+                 
+                 
+	<script src="assets/scripts/js/libraries.min.js"></script>
+	<script src="deploy/vectors.js"></script>
+	<script>       
+                 
+        $scene = $('#scene');
+        $scene.frictionX = 0.2;
+        $scene.frictionY = 0.2;
+        $scene.parallax();
+                 
+        var characterAnimation = function(elementName,images,fps)
+        {        
+                 
+                    var animation = {};
+                    var frameCount = 0;
+                    var fpsInterval, startTime, now, then, elapsed;
+                    var count = 0;
+                    var finalCount = (images.length) - 1;
+                 
+                    var stop = false;
+                 
+                    function animate()
+                    {
+                 
+                        if(stop)
+                            return;
+                 
+                        requestAnimationFrame(animate);
+                 
+                        now = Date.now();
+                        elapsed = now - then;
+                 
+                        if(elapsed > fpsInterval)
+                        {
+                 
+                            then = now - (elapsed % fpsInterval);
+                 
+                            document.getElementById(elementName).src = images[count];
+                            count++;
+                 
+                            if(count > finalCount)
+                              count = 0;
+                 
+                        }
+
+                   }
+                 
+                    animation.start = function()
+                    {
+                          fpsInterval = 1000 / fps;
+                          then = Date.now();
+                          startTime = then;
+                          animate();
+                    };
+                 
+                    animation.stop = function()
+                    {
+                        stop = true;
+                    };
+                 
+                  return animation;
+                 
+        };       
+                 
+       var imagesOldMan =   ["assets/images/old_man.png","assets/images/old_man_two.png",
+                            "assets/images/old_man_3.png","assets/images/old_man_4.png",
+                            "assets/images/old_man_5.png"];
+                 
+       var oldMan = characterAnimation( "old_man" , imagesOldMan, 2 );
+       oldMan.start();
+       //oldMan.stop();
+                 
+  </script>      
+                 
+</body>
+</html>
